@@ -14,7 +14,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 async function loadComponents() {
   try {
     // 1. Memuat Header
-    const headerRes = await fetch('/src/components/header.html');
+    const headerRes = await fetch('/components/header.html');
     if (headerRes.ok) {
         const headerHtml = await headerRes.text();
         const headerPlaceholder = document.getElementById('header-placeholder');
@@ -22,7 +22,7 @@ async function loadComponents() {
     }
 
     // 2. Memuat Footer
-    const footerRes = await fetch('/src/components/footer.html');
+    const footerRes = await fetch('/components/footer.html');
     if (footerRes.ok) {
         const footerHtml = await footerRes.text();
         const footerPlaceholder = document.getElementById('footer-placeholder');
