@@ -333,6 +333,42 @@ async function tampilkanExperienceHome() {
 
 tampilkanExperienceHome();
 
+// Helper Function untuk Merender Gambar, Video, atau Figma Embed secara Otomatis
+function renderProjectMedia(url, altText = 'Preview', aspectClass = 'aspect-video') {
+  if (!url || url.includes('EMPTY')) {
+    const fallbackImg = 'https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=800&auto=format&fit=crop';
+    return `<img src="${fallbackImg}" alt="${altText}" class="w-full h-full object-cover">`;
+  }
+
+  // 1. Cek Apakah URL adalah Embed Figma / Prototype Figma
+  if (url.includes('figma.com')) {
+    const embedUrl = url.includes('embed_host') 
+      ? url 
+      : `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(url)}`;
+    
+    return `
+      <iframe 
+        class="w-full h-full min-h-[400px] border-0 rounded-2xl" 
+        src="${embedUrl}" 
+        allowfullscreen>
+      </iframe>
+    `;
+  }
+
+  // 2. Cek Apakah URL adalah File Video (.mp4 / .webm)
+  if (url.endsWith('.mp4') || url.endsWith('.webm') || url.includes('/videos/')) {
+    return `
+      <video autoplay loop muted playsinline class="w-full h-full object-cover rounded-2xl">
+        <source src="${url}" type="video/mp4" />
+        Browser Anda tidak mendukung tag video.
+      </video>
+    `;
+  }
+
+  // 3. Fallback Default: Gambar Statis
+  return `<img src="${url}" alt="${altText}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">`;
+}
+
 // ==========================================
 // 7. RENDER DETAIL PROJECT (HALAMAN DETAIL-PROJECT.HTML)
 // ==========================================
@@ -356,38 +392,38 @@ async function tampilkanDetailProyek() {
     return;
   }
 
-  // Fallback Gambar & Data Default
-  const imgPlaceholder = 'https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=800&auto=format&fit=crop';
-  const fotoProyek = proyek.image_url && proyek.image_url !== 'EMPTY' ? proyek.image_url : imgPlaceholder;
+  // Fallback Data
+  const fotoCover = proyek.image_url && proyek.image_url !== 'EMPTY' 
+    ? proyek.image_url 
+    : 'https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=800&auto=format&fit=crop';
+    
   const clientName = proyek.client || "Client Name";
   const projectYear = proyek.year || "2026";
   const projectRole = proyek.role || "Web Developer";
   
-  // Data Testimonial & Klien
-  const supervisorName = proyek.supervisor_name && proyek.supervisor_name !== 'EMPTY' ? proyek.supervisor_name : clientName;
-  const supervisorLabel = proyek.supervisor_label && proyek.supervisor_label !== 'EMPTY' ? proyek.supervisor_label : "Project Owner";
-  const clientInitial = supervisorName.charAt(0).toUpperCase();
+  const supervisorName = (proyek.supervisor_name && proyek.supervisor_name !== 'EMPTY') ? proyek.supervisor_name : clientName;
+  const supervisorLabel = (proyek.supervisor_label && proyek.supervisor_label !== 'EMPTY') ? proyek.supervisor_label : "Project Owner";
+  const clientInitial = (supervisorName || 'U').charAt(0).toUpperCase();
   const testimonialText = proyek.testimonial || "Kerja sama yang luar biasa dengan hasil yang sangat memuaskan.";
 
-  // Data 4 Paragraf Studi Kasus (Mengikuti Desain Framer)
   const aboutText = proyek.about_project || "Penjelasan detail mengenai proyek ini belum ditambahkan.";
   const clientDescText = proyek.client_description || "Penjelasan mengenai klien atau latar belakang proyek belum ditambahkan.";
   const challengesText = proyek.challenges || "Penjelasan mengenai tantangan yang dihadapi belum ditambahkan.";
   const resultsText = proyek.results || "Penjelasan mengenai hasil akhir belum ditambahkan.";
 
-  // Logika Ekstraksi 3 Foto Gallery (Fallback ke Cover jika belum upload / masih EMPTY)
-  let img1 = fotoProyek, img2 = fotoProyek, img3 = fotoProyek;
+  // Ambil 3 Media Gallery dari Supabase (Bisa berisi URL Gambar, MP4 Video, atau Link Figma)
+  let media1 = fotoCover, media2 = fotoCover, media3 = fotoCover;
   if (proyek.gallery && Array.isArray(proyek.gallery) && proyek.gallery.length >= 3) {
-      if(proyek.gallery[0] && !proyek.gallery[0].includes('EMPTY')) img1 = proyek.gallery[0];
-      if(proyek.gallery[1] && !proyek.gallery[1].includes('EMPTY')) img2 = proyek.gallery[1];
-      if(proyek.gallery[2] && !proyek.gallery[2].includes('EMPTY')) img3 = proyek.gallery[2];
+      if(proyek.gallery[0] && !proyek.gallery[0].includes('EMPTY')) media1 = proyek.gallery[0];
+      if(proyek.gallery[1] && !proyek.gallery[1].includes('EMPTY')) media2 = proyek.gallery[1];
+      if(proyek.gallery[2] && !proyek.gallery[2].includes('EMPTY')) media3 = proyek.gallery[2];
   }
 
-  // Membangun HTML "More Projects"
+  // Section More Projects
   let moreProjectsHtml = '';
   if (moreProjects && moreProjects.length > 0) {
       moreProjectsHtml = moreProjects.map(p => {
-          const imgP = p.image_url && p.image_url !== 'EMPTY' ? p.image_url : imgPlaceholder;
+          const imgP = p.image_url && p.image_url !== 'EMPTY' ? p.image_url : fotoCover;
           return `
             <a href="/src/pages/detail-project.html?id=${p.id}" class="group block">
                 <div class="relative w-full aspect-video bg-gray-100 dark:bg-[#121212] rounded-3xl overflow-hidden mb-6 border border-gray-200 dark:border-white/5">
@@ -404,7 +440,7 @@ async function tampilkanDetailProyek() {
   }
 
   const htmlContent = `
-    <!-- Judul Proyek -->
+    <!-- Header Title Proyek -->
     <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
       <div class="text-center md:text-left flex-1">
         <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-4">${proyek.title}<span class="text-violet-600">.</span></h1>
@@ -428,64 +464,47 @@ async function tampilkanDetailProyek() {
       `}
     </div>
 
-    <!-- Gambar Utama -->
-    <!-- HAPUS h-[40vh] md:h-[60vh] dan GANTI menjadi aspect-video -->
+    <!-- Main Cover Image (Top Hero) -->
     <div class="w-full aspect-[4/3] md:aspect-[16/10] lg:aspect-video bg-gray-100 dark:bg-[#121212] border border-gray-200 dark:border-white/5 rounded-[2rem] overflow-hidden mb-20 relative">
-       
        <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-violet-600 rounded-full blur-[100px] opacity-40 pointer-events-none"></div>
        <div class="absolute top-20 -left-20 w-64 h-64 bg-violet-500 rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
-       <img src="${fotoProyek}" alt="${proyek.title}" class="relative z-10 w-full h-full object-cover">
-       
+       <img src="${fotoCover}" alt="${proyek.title}" class="relative z-10 w-full h-full object-cover">
     </div>
 
-    <!-- Info Detail & Konten Paragraf (4 Bagian) -->
+    <!-- Details Sidebar & Case Study -->
     <div class="flex flex-col md:flex-row gap-12 lg:gap-20 mb-24 relative items-start">
-      
-      <!-- Sidebar Kiri: Sticky -->
       <div class="w-full md:w-[30%] lg:w-1/4 sticky top-32">
-        
-        <!-- 1. WARNA GARIS: Diubah jadi border-violet (ungu) agar lebih menyala -->
         <div class="border-2 border-violet-200 dark:border-violet-700/50 rounded-[1.5rem] p-6 lg:p-8 bg-white dark:bg-[#0a0a0a] shadow-[0_0_15px_rgba(124,58,237,0.05)]">
-          
-          <!-- 2. JARAK TEKS: Diubah jadi flex-col agar teks panjang turun ke bawah dengan rapi -->
           <div class="flex flex-col gap-6">
-            
             <div>
               <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold mb-1">Client</p>
               <p class="font-bold text-gray-900 dark:text-white text-base">${clientName}</p>
             </div>
-            
             <div>
               <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold mb-1">Year</p>
               <p class="font-bold text-gray-900 dark:text-white text-base">${projectYear}</p>
             </div>
-            
             <div>
               <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold mb-1">My Role</p>
               <p class="font-bold text-gray-900 dark:text-white text-base">${projectRole}</p>
             </div>
-            
           </div>
         </div>
       </div>
 
-      <!-- Konten Kanan: Penjelasan Proyek (Format Studi Kasus) -->
       <div class="w-full md:w-[70%] lg:w-3/4 space-y-12 text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
         <section>
           <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-4 tracking-tight">About The Project</h2>
           <p>${aboutText}</p>
         </section>
-
         <section>
           <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-4 tracking-tight">Our Client</h2>
           <p>${clientDescText}</p>
         </section>
-
         <section>
           <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-4 tracking-tight">Challenges</h2>
           <p>${challengesText}</p>
         </section>
-
         <section>
           <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-4 tracking-tight">Results</h2>
           <p>${resultsText}</p>
@@ -493,22 +512,28 @@ async function tampilkanDetailProyek() {
       </div>
     </div>
 
-    <!-- Preview Tambahan 3 Foto -->
+    <!-- PREVIEW INTERAKTIF 3 MEDIA (FIGMA / VIDEO / GAMBAR) -->
     <div id="preview-section" class="mb-24">
+        <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-8 tracking-tight">Project Preview & Demo<span class="text-violet-600">.</span></h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Preview 1 (Atas Kiri) -->
             <div class="w-full aspect-video bg-gray-100 dark:bg-[#121212] rounded-3xl overflow-hidden border border-gray-200 dark:border-white/5">
-                <img src="${img1}" alt="Preview 1" class="w-full h-full object-cover">
+                ${renderProjectMedia(media1, 'Preview 1')}
             </div>
+
+            <!-- Preview 2 (Atas Kanan) -->
             <div class="w-full aspect-video bg-gray-100 dark:bg-[#121212] rounded-3xl overflow-hidden border border-gray-200 dark:border-white/5">
-                <img src="${img2}" alt="Preview 2" class="w-full h-full object-cover">
+                ${renderProjectMedia(media2, 'Preview 2')}
             </div>
-             <div class="w-full md:col-span-2 aspect-[21/9] bg-gray-100 dark:bg-[#121212] rounded-3xl overflow-hidden mt-2 border border-gray-200 dark:border-white/5">
-                <img src="${img3}" alt="Preview 3" class="w-full h-full object-cover">
+
+            <!-- Preview 3 (Bawah Full/Interaktif Figma Prototype) -->
+            <div class="w-full md:col-span-2 aspect-[16/9] md:aspect-[21/9] bg-gray-100 dark:bg-[#121212] rounded-3xl overflow-hidden mt-2 border border-gray-200 dark:border-white/5">
+                ${renderProjectMedia(media3, 'Interactive Demo')}
             </div>
         </div>
     </div>
 
-    <!-- Kotak Ulasan Klien -->
+    <!-- Testimonial Section -->
     <div class="w-full max-w-5xl mx-auto mb-32 border border-gray-200 dark:border-white/10 rounded-[2rem] p-8 md:p-14 bg-gray-50 dark:bg-[#121212]">
       <p class="text-xl md:text-2xl font-medium text-gray-800 dark:text-gray-200 leading-relaxed mb-8 italic">
         "${testimonialText}"
