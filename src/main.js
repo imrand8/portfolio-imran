@@ -13,7 +13,6 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 // ==========================================
 async function loadComponents() {
   try {
-    // 1. Memuat Header
     const headerRes = await fetch('/components/header.html');
     if (headerRes.ok) {
         const headerHtml = await headerRes.text();
@@ -21,7 +20,6 @@ async function loadComponents() {
         if (headerPlaceholder) headerPlaceholder.innerHTML = headerHtml;
     }
 
-    // 2. Memuat Footer
     const footerRes = await fetch('/components/footer.html');
     if (footerRes.ok) {
         const footerHtml = await footerRes.text();
@@ -29,10 +27,7 @@ async function loadComponents() {
         if (footerPlaceholder) footerPlaceholder.innerHTML = footerHtml;
     }
 
-    // 3. LOGIKA AKTIVASI MENU (Header & Footer)
     const currentPath = window.location.pathname;
-    
-    // Ambil semua link dari nav desktop, nav mobile, dan footer
     const navLinks = document.querySelectorAll(`
       #header-placeholder nav div.hidden a, 
       #header-placeholder nav [role="dialog"] a,
@@ -40,27 +35,20 @@ async function loadComponents() {
     `);
     
     navLinks.forEach(link => {
-        // Abaikan tombol toggle theme atau icon logo jika ada
         if (!link.hasAttribute('href') || link.id === 'theme-toggle') return;
-
         const linkPath = new URL(link.href).pathname;
-        
-        // Pengecekan cerdas untuk root (/) vs index.html vs halaman dalam folder pages/
         const isHome = (currentPath === '/' || currentPath === '/index.html') && (linkPath === '/' || linkPath === '/index.html');
         const isMatch = currentPath === linkPath || isHome;
 
         if (isMatch) {
             link.classList.add('text-violet-600');
             link.classList.remove('text-gray-500', 'text-gray-600', 'dark:text-gray-400', 'hover:text-violet-600');
-            
-            // Khusus menu mobile (agar textnya menjadi bold saat aktif)
             if (link.closest('[role="dialog"]')) {
                link.classList.add('font-bold');
                link.classList.remove('font-semibold');
             }
         } else {
             link.classList.remove('text-violet-600');
-            // Kembalikan kelas dasar
             link.classList.add('text-gray-600', 'dark:text-gray-400', 'hover:text-violet-600');
             if (link.closest('[role="dialog"]')) {
                link.classList.add('font-semibold');
@@ -69,8 +57,9 @@ async function loadComponents() {
         }
     });
 
-    // 4. Inisialisasi Fitur Lain Setelah DOM Siap
+    // Inisialisasi Fitur
     initDarkMode(); 
+    initMobileMenu(); // <--- TAMBAHKAN PEMANGGILAN INI
 
   } catch (error) {
     console.error('Gagal memuat komponen:', error);
@@ -431,7 +420,7 @@ async function tampilkanDetailProyek() {
           return `
             <a href="/src/pages/detail-project.html?id=${p.id}" class="group block">
                 <div class="relative w-full aspect-video bg-gray-100 dark:bg-[#121212] rounded-3xl overflow-hidden mb-6 border border-gray-200 dark:border-white/5">
-                    <img src="${imgP}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    ${renderProjectMedia(imgP, p.title)} <!-- GANTI TAG <img... /> DENGAN INI -->
                 </div>
                 <h3 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3 mb-2 group-hover:text-violet-600 transition-colors">
                     ${p.title} 
@@ -801,3 +790,24 @@ async function tampilkanMyStory() {
 
 // Panggil fungsinya
 tampilkanMyStory();
+
+// ==========================================
+// LOGIKA MOBILE MENU (TAMBAHKAN DI MAIN.JS)
+// ==========================================
+function initMobileMenu() {
+  const mobileBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const closeBtn = document.getElementById('mobile-menu-close');
+
+  if (!mobileBtn || !mobileMenu) return;
+
+  mobileBtn.addEventListener('click', () => {
+    mobileMenu.classList.remove('hidden');
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+    });
+  }
+}
