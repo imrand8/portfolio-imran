@@ -792,7 +792,32 @@ async function tampilkanMyStory() {
 tampilkanMyStory();
 
 // ==========================================
-// LOGIKA MOBILE MENU (TAMBAHKAN DI MAIN.JS)
+// LOGIKA ACTIVE NAV LINK (TAMBAHAN BARU)
+// ==========================================
+function setActiveNavLink() {
+  const currentPath = window.location.pathname;
+  const navLinks = document.querySelectorAll('nav a, #mobile-menu a');
+
+  navLinks.forEach((link) => {
+    const href = link.getAttribute('href');
+    if (!href) return;
+
+    // Reset warna aktif ungu
+    link.classList.remove('text-violet-600');
+
+    // Cek kecocokan halaman (Halaman Utama vs Halaman Lain)
+    const isHome = (currentPath === '/' || currentPath.endsWith('index.html')) && (href === '/' || href.endsWith('index.html'));
+    const isCurrentPage = href !== '/' && currentPath.endsWith(href);
+
+    if (isHome || isCurrentPage) {
+      link.classList.add('text-violet-600');
+      link.classList.remove('text-gray-500', 'dark:text-gray-400', 'text-gray-700', 'dark:text-gray-300');
+    }
+  });
+}
+
+// ==========================================
+// LOGIKA MOBILE MENU
 // ==========================================
 function initMobileMenu() {
   const mobileBtn = document.getElementById('mobile-menu-btn');
@@ -832,3 +857,22 @@ function initMobileMenu() {
     }
   });
 }
+
+// ==========================================
+// CARA PEMANGGILAN (Inisialisasi Header)
+// ==========================================
+// Jika kamu mengimpor header via fetch / layout loader:
+async function loadHeader() {
+  const placeholder = document.getElementById('header-placeholder');
+  if (!placeholder) return;
+
+  const response = await fetch('/src/components/header.html'); // Sesuaikan path component header kamu
+  const html = await response.text();
+  placeholder.innerHTML = html;
+
+  // JALANKAN KEDUA FUNGSI SETELAH HEADER MUNCUL
+  initMobileMenu();
+  setActiveNavLink();
+}
+
+loadHeader();
