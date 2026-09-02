@@ -797,19 +797,38 @@ tampilkanMyStory();
 function initMobileMenu() {
   const mobileBtn = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
-  const closeBtn = document.getElementById('mobile-menu-close');
 
-  if (mobileBtn && mobileMenu) {
-    mobileBtn.addEventListener('click', () => {
+  if (!mobileBtn || !mobileMenu) return;
+
+  mobileBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isHidden = mobileMenu.classList.contains('hidden');
+    
+    if (isHidden) {
+      // Buka Menu
       mobileMenu.classList.remove('hidden');
-      mobileMenu.classList.add('flex'); // Mengubah hidden menjadi flex agar tampil ke tengah
-    });
+      setTimeout(() => {
+        mobileMenu.classList.remove('opacity-0', 'scale-95', 'pointer-events-none', '-translate-y-2');
+        mobileMenu.classList.add('opacity-100', 'scale-100', 'pointer-events-auto', 'translate-y-0');
+      }, 10);
+    } else {
+      // Tutup Menu
+      closeMenu();
+    }
+  });
+
+  function closeMenu() {
+    mobileMenu.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto', 'translate-y-0');
+    mobileMenu.classList.add('opacity-0', 'scale-95', 'pointer-events-none', '-translate-y-2');
+    setTimeout(() => {
+      mobileMenu.classList.add('hidden');
+    }, 300);
   }
 
-  if (closeBtn && mobileMenu) {
-    closeBtn.addEventListener('click', () => {
-      mobileMenu.classList.add('hidden');
-      mobileMenu.classList.remove('flex');
-    });
-  }
+  // Tutup jika klik di luar area menu
+  document.addEventListener('click', (e) => {
+    if (!mobileMenu.contains(e.target) && !mobileBtn.contains(e.target) && !mobileMenu.classList.contains('hidden')) {
+      closeMenu();
+    }
+  });
 }

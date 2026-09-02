@@ -7,89 +7,76 @@
 
     <link rel="icon" type="image/png" href="/favicon.png" />
   </head>
-  <body class="bg-white dark:bg-[#0a0a0a] text-gray-900 dark:text-slate-200 font-sans antialiased selection:bg-violet-200 dark:selection:bg-violet-900 selection:text-violet-900 dark:selection:text-white transition-colors duration-300">
+  <body class="bg-white dark:bg-[#0a0a0a] text-gray-900 dark:text-slate-200 font-sans antialiased selection:bg-violet-200 dark:selection:bg-violet-900 selection:text-violet-900 dark:selection:text-white transition-colors duration-300 overflow-x-hidden">
 
-  <div id="header-placeholder"></div>
+    <div id="header-placeholder"></div>
 
-      <!-- 1. HERO SECTION -->
-      <!-- Menggunakan min-h-[85vh] agar secara otomatis kontennya persis di tengah layar -->
-      <section class="flex flex-col md:flex-row items-center justify-between px-6 py-16 md:py-0 md:min-h-[85vh] max-w-7xl mx-auto w-full gap-12 mb-10 md:mb-16">
+    <!-- 1. HERO SECTION -->
+    <section class="flex flex-col-reverse md:flex-row items-center justify-between px-6 py-10 md:py-0 md:min-h-[85vh] max-w-7xl mx-auto w-full gap-8 md:gap-12 mb-12 md:mb-16">
       <div class="flex-1 text-center md:text-left">
-        <p class="text-xl md:text-2xl font-medium text-gray-500 dark:text-gray-400 mb-2">
+        <p class="text-lg sm:text-xl md:text-2xl font-medium text-gray-500 dark:text-gray-400 mb-2">
           Hey, I'm Imran Darajati
         </p>
-        <h1 class="text-5xl sm:text-6xl lg:text-[5.5rem] font-extrabold leading-[1.05] tracking-tighter text-gray-900 dark:text-white mb-6">
-          <span class="text-violet-600">Web</span><br />
-          Developer
+        <h1 class="text-4xl sm:text-6xl lg:text-[5.5rem] font-extrabold leading-[1.1] tracking-tighter text-gray-900 dark:text-white mb-5">
+          <span class="text-violet-600">Web</span><br class="hidden sm:block"/> Developer
         </h1>
-        <p class="text-lg text-gray-500 dark:text-gray-400 max-w-md mx-auto md:mx-0 mb-8 leading-relaxed font-medium">
+        <p class="text-base sm:text-lg text-gray-500 dark:text-gray-400 max-w-md mx-auto md:mx-0 mb-8 leading-relaxed font-medium">
           Saya membantu merancang antarmuka yang bersih dan arsitektur backend yang andal untuk mewujudkan ide digital Anda.
         </p>
-        <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center md:justify-start">
-          <a href="/src/pages/contact.html" class="px-7 py-3.5 bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-xl transition-all shadow-[0_4px_14px_0_rgba(124,58,237,0.39)] text-center">
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto justify-center md:justify-start">
+          <a href="/src/pages/contact.html" class="px-7 py-3.5 bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-xl transition-all shadow-[0_4px_14px_0_rgba(124,58,237,0.39)] text-center text-sm sm:text-base">
             Get In Touch
           </a>
-          <a href="/src/pages/projects.html" class="px-7 py-3.5 bg-transparent border-2 border-gray-200 dark:border-gray-700 hover:border-gray-900 dark:hover:border-white text-gray-900 dark:text-white font-bold rounded-xl transition-all text-center">
+          <a href="/src/pages/projects.html" class="px-7 py-3.5 bg-transparent border-2 border-gray-200 dark:border-gray-700 hover:border-gray-900 dark:hover:border-white text-gray-900 dark:text-white font-bold rounded-xl transition-all text-center text-sm sm:text-base">
             Browse Projects
           </a>
         </div>
       </div>
 
-      <!-- Bagian Kanan: Foto Profil -->
-      <div class="flex-1 flex justify-center md:justify-end w-full max-w-[320px] md:max-w-[400px]">
-        
-        <!-- Wadah utama menggunakan relative (persis seperti di halaman Contact) -->
+      <!-- Bagian Foto Profil -->
+      <div class="flex-1 flex justify-center md:justify-end w-full max-w-[260px] sm:max-w-[320px] md:max-w-[400px]">
         <div class="relative w-full aspect-square group">
-          
-          <!-- Lingkaran Luar (Putus-putus, Berputar pelan) -->
+          <!-- Lingkaran Luar -->
           <div class="absolute inset-0 rounded-full border-[1.5px] border-dashed border-violet-300 dark:border-violet-800 animate-[spin_30s_linear_infinite]"></div>
           
-          <!-- Wadah Foto (Diam, tidak berputar, menggunakan inset agar ada jarak) -->
-          <div class="absolute inset-6 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-2xl">
-            
+          <!-- Wadah Foto -->
+          <div class="absolute inset-4 sm:inset-6 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-2xl">
             <img src="https://qitjxnkgwhtpzqbubaax.supabase.co/storage/v1/object/public/portfolio-images/Photo%20Profil.png" 
                  alt="Imran Darajati" 
                  class="w-full h-full object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out">
-                 
           </div>
-          
         </div>
       </div>
     </section>
 
-    <!-- 2. PROJECTS SECTION (Ubah py-16 jadi mb-20 md:mb-28) -->
-    <section class="max-w-7xl mx-auto px-6 mb-20 md:mb-28">
-      <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-10 tracking-tight">Projects<span class="text-violet-600">.</span></h2>
-      
-      <!-- Grid 12 kolom untuk efek Bento Grid (Zig-zag) -->
-      <div id="projects-container" class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-10"></div>
+    <!-- 2. PROJECTS SECTION -->
+    <section class="max-w-7xl mx-auto px-6 mb-16 md:mb-28">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-8 md:mb-10 tracking-tight">Projects<span class="text-violet-600">.</span></h2>
+      <div id="projects-container" class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 md:gap-10"></div>
     </section>
 
     <!-- 3. EXPERIENCE SECTION -->
-    <section class="max-w-7xl mx-auto px-6 mb-20 md:mb-28">
-      <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-12 tracking-tight">Experience<span class="text-violet-600">.</span></h2>
+    <section class="max-w-7xl mx-auto px-6 mb-16 md:mb-28">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-8 md:mb-12 tracking-tight">Experience<span class="text-violet-600">.</span></h2>
       
-      <div class="flex flex-col md:flex-row gap-8 md:gap-16 relative">
-        
-        <!-- Tab Kiri (Wadah Tombol Dinamis) -->
-        <div class="relative flex flex-col gap-5 md:w-1/4 border-l-2 border-gray-200 dark:border-gray-800 pl-6 py-1 self-start" id="home-exp-tabs">
-          <!-- Garis indikator harus tetap ada di sini -->
-          <span id="tab-indicator" class="absolute -left-[2px] top-1 w-[2px] h-7 bg-violet-600 transition-all duration-300"></span>
+      <div class="flex flex-col md:flex-row gap-6 md:gap-16 relative">
+        <!-- Tab Kiri -->
+        <div class="relative flex flex-row md:flex-col overflow-x-auto md:overflow-x-visible no-scrollbar border-b-2 md:border-b-0 md:border-l-2 border-gray-200 dark:border-gray-800 pb-2 md:pb-0 md:pl-6 gap-3 md:gap-5 md:w-1/4 self-start" id="home-exp-tabs">
+          <span id="tab-indicator" class="hidden md:block absolute -left-[2px] top-1 w-[2px] h-7 bg-violet-600 transition-all duration-300"></span>
         </div>
 
-        <!-- Konten Kanan (Wadah Penjelasan Dinamis) -->
-        <div class="md:w-3/4 relative" id="home-exp-contents">
-        </div>
+        <!-- Konten Kanan -->
+        <div class="md:w-3/4 relative" id="home-exp-contents"></div>
       </div>
     </section>
 
     <!-- 4. SKILLS SECTION -->
-    <section class="max-w-7xl mx-auto px-6 mb-20 md:mb-28">
-      <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-10 tracking-tight">Skills<span class="text-violet-600">.</span></h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-10">
+    <section class="max-w-7xl mx-auto px-6 mb-16 md:mb-28">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-8 md:mb-10 tracking-tight">Skills<span class="text-violet-600">.</span></h2>
+      <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 md:gap-10">
         <div>
-          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-5">Web Design</h3>
-          <ul class="space-y-2 text-gray-500 dark:text-gray-400 font-medium text-sm md:text-base">
+          <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-3 sm:mb-5">Web Design</h3>
+          <ul class="space-y-2 text-gray-500 dark:text-gray-400 font-medium text-xs sm:text-sm md:text-base">
             <li>UI/UX Design</li>
             <li>Responsive Design</li>
             <li>Wireframing</li>
@@ -97,8 +84,8 @@
           </ul>
         </div>
         <div>
-          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-5">Frontend</h3>
-          <ul class="space-y-2 text-gray-500 dark:text-gray-400 font-medium text-sm md:text-base">
+          <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-3 sm:mb-5">Frontend</h3>
+          <ul class="space-y-2 text-gray-500 dark:text-gray-400 font-medium text-xs sm:text-sm md:text-base">
             <li>HTML5 / CSS3</li>
             <li>JavaScript</li>
             <li>Flutter</li>
@@ -106,8 +93,8 @@
           </ul>
         </div>
         <div>
-          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-5">Backend</h3>
-          <ul class="space-y-2 text-gray-500 dark:text-gray-400 font-medium text-sm md:text-base">
+          <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-3 sm:mb-5">Backend</h3>
+          <ul class="space-y-2 text-gray-500 dark:text-gray-400 font-medium text-xs sm:text-sm md:text-base">
             <li>PHP</li>
             <li>Laravel</li>
             <li>MySQL</li>
@@ -115,8 +102,8 @@
           </ul>
         </div>
         <div>
-          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-5">IoT & Hardware</h3>
-          <ul class="space-y-2 text-gray-500 dark:text-gray-400 font-medium text-sm md:text-base">
+          <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-3 sm:mb-5">IoT & Hardware</h3>
+          <ul class="space-y-2 text-gray-500 dark:text-gray-400 font-medium text-xs sm:text-sm md:text-base">
             <li>C++</li>
             <li>Arduino</li>
             <li>ESP32</li>
@@ -127,13 +114,9 @@
     </section>
 
     <!-- 5. MY STORY SECTION -->
-    <section class="max-w-7xl mx-auto px-6 mb-20 md:mb-28">
-      <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-10 tracking-tight">My Story<span class="text-violet-600">.</span></h2>
-      
-      <!-- Wadah Kosong untuk JavaScript -->
-      <div id="home-story-container" class="w-full lg:w-10/12 space-y-6 text-base md:text-lg text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
-        <!-- Teks akan di-render di sini -->
-      </div>
+    <section class="max-w-7xl mx-auto px-6 mb-16 md:mb-28">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-8 md:mb-10 tracking-tight">My Story<span class="text-violet-600">.</span></h2>
+      <div id="home-story-container" class="w-full lg:w-10/12 space-y-5 text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 leading-relaxed font-medium"></div>
     </section>
 
     <div id="footer-placeholder"></div>
