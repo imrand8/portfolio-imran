@@ -799,15 +799,17 @@ function initMobileMenu() {
   const mobileMenu = document.getElementById('mobile-menu');
   const closeBtn = document.getElementById('mobile-menu-close');
 
-  if (!mobileBtn || !mobileMenu) return;
+  if (mobileBtn && mobileMenu) {
+    mobileBtn.addEventListener('click', () => {
+      mobileMenu.classList.remove('hidden');
+      mobileMenu.classList.add('flex'); // Mengubah hidden menjadi flex agar tampil ke tengah
+    });
+  }
 
-  mobileBtn.addEventListener('click', () => {
-    mobileMenu.classList.remove('hidden');
-  });
-
-  if (closeBtn) {
+  if (closeBtn && mobileMenu) {
     closeBtn.addEventListener('click', () => {
       mobileMenu.classList.add('hidden');
+      mobileMenu.classList.remove('flex');
     });
   }
 }
