@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @variant dark (&:where(.dark, .dark *));
 
-
       .marquee-container {
         display: flex;
         overflow: hidden;

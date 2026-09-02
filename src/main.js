@@ -155,7 +155,7 @@ async function tampilkanProyekBeranda() {
           <div class="absolute bottom-0 left-0 w-56 h-56 bg-fuchsia-400/20 dark:bg-fuchsia-600/20 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-700"></div>
           <div class="absolute inset-0 opacity-[0.04] dark:opacity-[0.06]" style="background-image: radial-gradient(currentColor 1px, transparent 1px); background-size: 24px 24px;"></div>
           
-          <img src="${fotoProyek}" alt="${proyek.title}" class="relative z-10 w-full h-full object-cover rounded-2xl shadow-2xl transform group-hover:scale-[1.03] group-hover:rotate-1 transition-transform duration-700 ring-1 ring-gray-900/5 dark:ring-white/10">
+          ${renderProjectMedia(fotoProyek, proyek.title)}
         </div>
         
         <!-- Sisa kodenya tetap sama -->
@@ -212,7 +212,8 @@ async function tampilkanDaftarProyekSticky() {
           <a href="${detailLink}" class="block relative w-full lg:w-[60%] aspect-video bg-gray-100 dark:bg-[#121212] rounded-3xl overflow-hidden border border-gray-200 dark:border-white/5 transition-transform duration-500 hover:scale-[1.01] shrink-0">
              <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-violet-600 rounded-full blur-[100px] opacity-40 pointer-events-none"></div>
              <div class="absolute top-20 -left-20 w-64 h-64 bg-violet-500 rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
-             <img src="${fotoProyek}" alt="${proyek.title}" class="absolute inset-0 w-full h-full object-cover">
+             
+             ${renderProjectMedia(fotoProyek, proyek.title)}
           </a>
           
           <!-- SISI KANAN: Teks Judul dan Deskripsi (Lebar 40% di layar besar) -->
@@ -333,14 +334,17 @@ async function tampilkanExperienceHome() {
 
 tampilkanExperienceHome();
 
-// Helper Function untuk Merender Gambar, Video, atau Figma Embed secara Otomatis
-function renderProjectMedia(url, altText = 'Preview', aspectClass = 'aspect-video') {
+// Helper Function untuk Merender Gambar, Video, atau Figma Embed
+function renderProjectMedia(url, altText = 'Preview') {
   if (!url || url.includes('EMPTY')) {
     const fallbackImg = 'https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=800&auto=format&fit=crop';
     return `<img src="${fallbackImg}" alt="${altText}" class="w-full h-full object-cover">`;
   }
 
-  // 1. Cek Apakah URL adalah Embed Figma / Prototype Figma
+  // Hapus query parameter (?...) untuk pengecekan ekstensi file
+  const cleanUrl = url.split('?')[0].toLowerCase();
+
+  // 1. Cek Embed / Prototype Figma
   if (url.includes('figma.com')) {
     const embedUrl = url.includes('embed_host') 
       ? url 
@@ -355,8 +359,8 @@ function renderProjectMedia(url, altText = 'Preview', aspectClass = 'aspect-vide
     `;
   }
 
-  // 2. Cek Apakah URL adalah File Video (.mp4 / .webm)
-  if (url.endsWith('.mp4') || url.endsWith('.webm') || url.includes('/videos/')) {
+  // 2. Cek File Video (.mp4 / .webm)
+  if (cleanUrl.endsWith('.mp4') || cleanUrl.endsWith('.webm') || url.includes('/videos/')) {
     return `
       <video autoplay loop muted playsinline class="w-full h-full object-cover rounded-2xl">
         <source src="${url}" type="video/mp4" />
@@ -365,7 +369,7 @@ function renderProjectMedia(url, altText = 'Preview', aspectClass = 'aspect-vide
     `;
   }
 
-  // 3. Fallback Default: Gambar Statis
+  // 3. Fallback: Gambar Statis
   return `<img src="${url}" alt="${altText}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">`;
 }
 
@@ -466,9 +470,11 @@ async function tampilkanDetailProyek() {
 
     <!-- Main Cover Image (Top Hero) -->
     <div class="w-full aspect-[4/3] md:aspect-[16/10] lg:aspect-video bg-gray-100 dark:bg-[#121212] border border-gray-200 dark:border-white/5 rounded-[2rem] overflow-hidden mb-20 relative">
-       <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-violet-600 rounded-full blur-[100px] opacity-40 pointer-events-none"></div>
-       <div class="absolute top-20 -left-20 w-64 h-64 bg-violet-500 rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
-       <img src="${fotoCover}" alt="${proyek.title}" class="relative z-10 w-full h-full object-cover">
+       <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-violet-600 rounded-full blur-[100px] opacity-40 pointer-events-none z-0"></div>
+       <div class="absolute top-20 -left-20 w-64 h-64 bg-violet-500 rounded-full blur-[80px] opacity-20 pointer-events-none z-0"></div>
+       <div class="relative z-10 w-full h-full">
+          ${renderProjectMedia(fotoCover, proyek.title)}
+       </div>
     </div>
 
     <!-- Details Sidebar & Case Study -->
