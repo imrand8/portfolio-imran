@@ -29,30 +29,32 @@ async function loadComponents() {
 
     const currentPath = window.location.pathname;
     const navLinks = document.querySelectorAll(`
-      #header-placeholder nav div.hidden a, 
-      #header-placeholder nav [role="dialog"] a,
+      #header-placeholder nav a, 
+      #header-placeholder #mobile-menu a,
       #footer-nav-links a
     `);
     
     navLinks.forEach(link => {
-        if (!link.hasAttribute('href') || link.id === 'theme-toggle') return;
+        // Abaikan tombol tema, link tanpa href, dan logo utama
+        if (!link.hasAttribute('href') || link.id === 'theme-toggle' || link.classList.contains('font-extrabold')) return;
+        
         const linkPath = new URL(link.href).pathname;
         const isHome = (currentPath === '/' || currentPath === '/index.html') && (linkPath === '/' || linkPath === '/index.html');
         const isMatch = currentPath === linkPath || isHome;
 
         if (isMatch) {
+            // Beri warna ungu jika halaman aktif
             link.classList.add('text-violet-600');
-            link.classList.remove('text-gray-500', 'text-gray-600', 'dark:text-gray-400', 'hover:text-violet-600');
-            if (link.closest('[role="dialog"]')) {
-               link.classList.add('font-bold');
-               link.classList.remove('font-semibold');
-            }
+            link.classList.remove('text-gray-500', 'text-gray-600', 'text-gray-700', 'dark:text-gray-400', 'dark:text-gray-300');
         } else {
+            // Hapus warna ungu jika bukan halaman aktif
             link.classList.remove('text-violet-600');
-            link.classList.add('text-gray-600', 'dark:text-gray-400', 'hover:text-violet-600');
-            if (link.closest('[role="dialog"]')) {
-               link.classList.add('font-semibold');
-               link.classList.remove('font-bold');
+            
+            // Kembalikan ke warna default abu-abu (berbeda antara mobile dan desktop)
+            if (link.closest('#mobile-menu')) {
+                link.classList.add('text-gray-700', 'dark:text-gray-300');
+            } else {
+                link.classList.add('text-gray-500', 'dark:text-gray-400');
             }
         }
     });
@@ -792,24 +794,33 @@ async function tampilkanMyStory() {
 tampilkanMyStory();
 
 // ==========================================
-// LOGIKA MOBILE MENU (TAMBAHKAN DI MAIN.JS)
+// LOGIKA MOBILE MENU
 // ==========================================
 function initMobileMenu() {
   const mobileBtn = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
-  const closeBtn = document.getElementById('mobile-menu-close');
 
   if (mobileBtn && mobileMenu) {
     mobileBtn.addEventListener('click', () => {
-      mobileMenu.classList.remove('hidden');
-      mobileMenu.classList.add('flex'); // Mengubah hidden menjadi flex agar tampil ke tengah
-    });
-  }
-
-  if (closeBtn && mobileMenu) {
-    closeBtn.addEventListener('click', () => {
-      mobileMenu.classList.add('hidden');
-      mobileMenu.classList.remove('flex');
+      // Cek apakah menu sedang disembunyikan
+      if (mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.remove('hidden'); // Munculkan elemen ke DOM
+        
+        // Jeda 10ms agar browser merender class 'hidden' yang hilang sebelum memulai transisi
+        setTimeout(() => {
+          mobileMenu.classList.remove('opacity-0', 'scale-95', 'pointer-events-none', '-translate-y-2');
+          mobileMenu.classList.add('opacity-100', 'scale-100', 'pointer-events-auto', 'translate-y-0');
+        }, 10);
+      } else {
+        // Animasi menutup
+        mobileMenu.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto', 'translate-y-0');
+        mobileMenu.classList.add('opacity-0', 'scale-95', 'pointer-events-none', '-translate-y-2');
+        
+        // Tunggu animasi selesai (300ms dari duration-300) baru sembunyikan sepenuhnya
+        setTimeout(() => {
+          mobileMenu.classList.add('hidden');
+        }, 300); 
+      }
     });
   }
 }
