@@ -866,7 +866,7 @@ async function loadHeader() {
   const placeholder = document.getElementById('header-placeholder');
   if (!placeholder) return;
 
-  const response = await fetch('/src/components/header.html'); // Sesuaikan path component header kamu
+  const response = await fetch('components/header.html'); // Sesuaikan path component header kamu
   const html = await response.text();
   placeholder.innerHTML = html;
 
