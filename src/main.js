@@ -792,87 +792,24 @@ async function tampilkanMyStory() {
 tampilkanMyStory();
 
 // ==========================================
-// LOGIKA ACTIVE NAV LINK (TAMBAHAN BARU)
-// ==========================================
-function setActiveNavLink() {
-  const currentPath = window.location.pathname;
-  const navLinks = document.querySelectorAll('nav a, #mobile-menu a');
-
-  navLinks.forEach((link) => {
-    const href = link.getAttribute('href');
-    if (!href) return;
-
-    // Reset warna aktif ungu
-    link.classList.remove('text-violet-600');
-
-    // Cek kecocokan halaman (Halaman Utama vs Halaman Lain)
-    const isHome = (currentPath === '/' || currentPath.endsWith('index.html')) && (href === '/' || href.endsWith('index.html'));
-    const isCurrentPage = href !== '/' && currentPath.endsWith(href);
-
-    if (isHome || isCurrentPage) {
-      link.classList.add('text-violet-600');
-      link.classList.remove('text-gray-500', 'dark:text-gray-400', 'text-gray-700', 'dark:text-gray-300');
-    }
-  });
-}
-
-// ==========================================
-// LOGIKA MOBILE MENU
+// LOGIKA MOBILE MENU (TAMBAHKAN DI MAIN.JS)
 // ==========================================
 function initMobileMenu() {
   const mobileBtn = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
+  const closeBtn = document.getElementById('mobile-menu-close');
 
-  if (!mobileBtn || !mobileMenu) return;
-
-  mobileBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isHidden = mobileMenu.classList.contains('hidden');
-    
-    if (isHidden) {
-      // Buka Menu
+  if (mobileBtn && mobileMenu) {
+    mobileBtn.addEventListener('click', () => {
       mobileMenu.classList.remove('hidden');
-      setTimeout(() => {
-        mobileMenu.classList.remove('opacity-0', 'scale-95', 'pointer-events-none', '-translate-y-2');
-        mobileMenu.classList.add('opacity-100', 'scale-100', 'pointer-events-auto', 'translate-y-0');
-      }, 10);
-    } else {
-      // Tutup Menu
-      closeMenu();
-    }
-  });
-
-  function closeMenu() {
-    mobileMenu.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto', 'translate-y-0');
-    mobileMenu.classList.add('opacity-0', 'scale-95', 'pointer-events-none', '-translate-y-2');
-    setTimeout(() => {
-      mobileMenu.classList.add('hidden');
-    }, 300);
+      mobileMenu.classList.add('flex'); // Mengubah hidden menjadi flex agar tampil ke tengah
+    });
   }
 
-  // Tutup jika klik di luar area menu
-  document.addEventListener('click', (e) => {
-    if (!mobileMenu.contains(e.target) && !mobileBtn.contains(e.target) && !mobileMenu.classList.contains('hidden')) {
-      closeMenu();
-    }
-  });
+  if (closeBtn && mobileMenu) {
+    closeBtn.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      mobileMenu.classList.remove('flex');
+    });
+  }
 }
-
-// ==========================================
-// CARA PEMANGGILAN (Inisialisasi Header)
-// ==========================================
-// Jika kamu mengimpor header via fetch / layout loader:
-async function loadHeader() {
-  const placeholder = document.getElementById('header-placeholder');
-  if (!placeholder) return;
-
-  const response = await fetch('components/header.html'); // Sesuaikan path component header kamu
-  const html = await response.text();
-  placeholder.innerHTML = html;
-
-  // JALANKAN KEDUA FUNGSI SETELAH HEADER MUNCUL
-  initMobileMenu();
-  setActiveNavLink();
-}
-
-loadHeader();
