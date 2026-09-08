@@ -471,7 +471,8 @@ async function tampilkanDetailProyek() {
 
     <!-- Details Sidebar & Case Study -->
     <div class="flex flex-col md:flex-row gap-12 lg:gap-20 mb-24 relative items-start">
-      <div class="w-full md:w-[30%] lg:w-1/4 sticky top-32">
+      
+      <div class="w-full md:w-[30%] lg:w-1/4 relative md:sticky md:top-32 mb-4 md:mb-0">
         <div class="border-2 border-violet-200 dark:border-violet-700/50 rounded-[1.5rem] p-6 lg:p-8 bg-white dark:bg-[#0a0a0a] shadow-[0_0_15px_rgba(124,58,237,0.05)]">
           <div class="flex flex-col gap-6">
             <div>
