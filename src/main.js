@@ -40,7 +40,8 @@ async function loadComponents() {
         
         const linkPath = new URL(link.href).pathname;
         const isHome = (currentPath === '/' || currentPath === '/index.html') && (linkPath === '/' || linkPath === '/index.html');
-        const isMatch = currentPath === linkPath || isHome;
+        const isDetailProject = currentPath.includes('/src/pages/detail-project.html') && linkPath.includes('/src/pages/projects.html');
+        const isMatch = currentPath === linkPath || isHome || isDetailProject;
 
         if (isMatch) {
             // Beri warna ungu jika halaman aktif
