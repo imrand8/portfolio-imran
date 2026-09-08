@@ -83,36 +83,35 @@
           <div class="flex-1 bg-gray-50 dark:bg-[#121212] rounded-[2rem] overflow-hidden border border-gray-200 dark:border-white/5 relative min-h-[280px] lg:h-full flex items-center justify-center">
             
             <!-- PETA DUNIA -->
-            <div class="absolute inset-0 z-0 opacity-30 dark:opacity-40 pointer-events-none">
+            <div class="absolute inset-0 z-0 opacity-30 dark:opacity-40 pointer-events-none overflow-hidden">
               <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg" 
                     alt="World Map" 
                     class="w-full h-full object-cover dark:invert transition-transform duration-1000
-                          origin-[140%_60%] scale-[2]                       /* <-- 📱 MOBILE: Fokus ke Indonesia & atur besarnya gambar */
-                          md:origin-[89%_51%] md:scale-[5] md:object-center  /* <-- 💻 WEB: Settingan asli milikmu (jangan diubah) */
+                          origin-[88%_53%] scale-[4.5]                       /* <-- 📱 MOBILE: Peta digeser ke kanan (Indonesia) & di-zoom agar tidak terpotong */
+                          md:origin-[89%_51%] md:scale-[5] md:object-center  /* <-- 💻 WEB: Asli milikmu */
                           "
                     onerror="this.style.display='none'">
             </div>
 
             <!-- Overlay Gradasi -->
             <div class="absolute inset-0 bg-gradient-to-t from-gray-50/80 via-transparent to-gray-50/80 dark:from-[#121212]/90 dark:via-transparent dark:to-[#121212]/90 z-10 pointer-events-none"></div>
-            
+
             <!-- TITIK LOKASI -->
-            <!-- 👇 INI BAGIAN YANG PERLU KAMU UBAH ANGKA MOBILE-NYA 👇 -->
             <div class="absolute z-20 flex items-center justify-center 
-                        -translate-x-[50px] translate-y-[30px]                   /* <-- 📱 MOBILE: Ubah angka 40 dan 20 ini */
-                        md:-translate-x-[130px] md:translate-y-[70px]            /* <-- 💻 WEB: Posisi asli milikmu */
+                        -translate-x-[45px] translate-y-[35px]                   /* <-- 📱 MOBILE: Titik koordinat awal untuk menyesuaikan peta baru */
+                        md:-translate-x-[130px] md:translate-y-[70px]            /* <-- 💻 WEB: Asli milikmu */
                         ">
-                <div class="relative flex h-3 w-3 sm:h-4 sm:w-4 group cursor-pointer">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-full w-full bg-violet-600 border-[2px] border-white dark:border-[#121212] shadow-[0_0_10px_rgba(124,58,237,0.8)]"></span>
-                  
-                  <!-- Tooltip -->
-                  <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
+              <div class="relative flex h-3 w-3 sm:h-4 sm:w-4 group cursor-pointer">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-full w-full bg-violet-600 border-[2px] border-white dark:border-[#121212] shadow-[0_0_10px_rgba(124,58,237,0.8)]"></span>
+                
+                <!-- Tooltip -->
+                <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
                     <div class="bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-bold px-3 py-1.5 rounded-lg shadow-xl border border-white/10 dark:border-black/10">
-                        Pacitan, East Java
+                      Pacitan, East Java
                     </div>
-                  </div>
                 </div>
+              </div>
             </div>
             
           </div>
