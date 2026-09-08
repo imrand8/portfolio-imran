@@ -87,8 +87,8 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg" 
                     alt="World Map" 
                     class="w-full h-full object-cover dark:invert transition-transform duration-1000
-                            object-[85%_52%] scale-[3.2]            /* <-- Settingan Mobile */
-                            md:object-center md:origin-[89%_51%] md:scale-[5] /* <-- ASLI MILIKMU (DESKTOP) */
+                            scale-[3] origin-center                               /* <-- 📱 MOBILE: Zoom peta */
+                            md:object-center md:origin-[89%_51%] md:scale-[5]     /* <-- 💻 WEB: Posisi asli milikmu */
                             "
                     onerror="this.style.display='none'">
             </div>
@@ -97,15 +97,16 @@
             <div class="absolute inset-0 bg-gradient-to-t from-gray-50/80 via-transparent to-gray-50/80 dark:from-[#121212]/90 dark:via-transparent dark:to-[#121212]/90 z-10 pointer-events-none"></div>
             
             <!-- TITIK LOKASI -->
+            <!-- 👇 INI BAGIAN YANG PERLU KAMU UBAH ANGKA MOBILE-NYA 👇 -->
             <div class="absolute z-20 flex items-center justify-center 
-                        -translate-x-[65px] translate-y-[35px]        /* <-- Settingan Mobile */
-                        md:-translate-x-[130px] md:translate-y-[70px] /* <-- ASLI MILIKMU (DESKTOP) */
+                        -translate-x-[90px] translate-y-[10px]                   /* <-- 📱 MOBILE: Ubah angka 40 dan 20 ini */
+                        md:-translate-x-[130px] md:translate-y-[70px]            /* <-- 💻 WEB: Posisi asli milikmu */
                         ">
                 <div class="relative flex h-3 w-3 sm:h-4 sm:w-4 group cursor-pointer">
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
                   <span class="relative inline-flex rounded-full h-full w-full bg-violet-600 border-[2px] border-white dark:border-[#121212] shadow-[0_0_10px_rgba(124,58,237,0.8)]"></span>
                   
-                  <!-- Tooltip: Tampil selalu di Mobile (karena HP tidak ada hover), di Desktop kembali hover -->
+                  <!-- Tooltip -->
                   <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
                     <div class="bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-bold px-3 py-1.5 rounded-lg shadow-xl border border-white/10 dark:border-black/10">
                         Pacitan, East Java
