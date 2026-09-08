@@ -190,8 +190,8 @@ async function tampilkanDaftarProyekSticky() {
     const detailLink = `/src/pages/detail-project.html?id=${proyek.id}`;
 
     // SEMUA KARTU RATA mendapat pb-[50vh].
-    // Celah 50vh di kartu terakhir akan ditutupi oleh footer berkat -mt-[50vh] di HTML.
-    const paddingClass = "pb-[50vh]";
+    // PERBAIKAN: pb-24 untuk mobile, pb-[50vh] untuk layar lebar
+    const paddingClass = "pb-24 lg:pb-[50vh]";
 
     const card = `
       <div class="sticky w-full bg-white dark:bg-[#0a0a0a] pt-12 ${paddingClass} transition-colors duration-300" 
