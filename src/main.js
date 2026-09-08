@@ -194,24 +194,24 @@ async function tampilkanDaftarProyekSticky() {
     const paddingClass = "pb-12 lg:pb-[50vh]";
 
     const card = `
-      <div class="sticky w-full bg-white dark:bg-[#0a0a0a] pt-12 ${paddingClass} transition-colors duration-300" 
-           style="top: ${topPosition}px; z-index: ${zIndex};">
+      <div class="relative lg:sticky lg:top-[100px] w-full bg-white dark:bg-[#0a0a0a] pt-0 lg:pt-12 mb-12 lg:mb-0 pb-0 lg:pb-[50vh] transition-colors duration-300" 
+          style="z-index: ${zIndex};">
         
-        <!-- FLEX CONTAINER: Atas-bawah di HP (flex-col), Kiri-kanan di Laptop (lg:flex-row) -->
-        <div class="w-full max-w-6xl mx-auto px-4 md:px-8 flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
+        <!-- FLEX CONTAINER -->
+        <div class="w-full max-w-6xl mx-auto px-4 md:px-8 flex flex-col lg:flex-row items-center gap-6 lg:gap-16">
           
-          <!-- SISI KIRI: Gambar Proyek (Lebar 60% di layar besar) -->
+          <!-- SISI KIRI: Gambar Proyek -->
           <a href="${detailLink}" class="block relative w-full lg:w-[60%] aspect-video bg-gray-100 dark:bg-[#121212] rounded-3xl overflow-hidden border border-gray-200 dark:border-white/5 transition-transform duration-500 hover:scale-[1.01] shrink-0">
-             <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-violet-600 rounded-full blur-[100px] opacity-40 pointer-events-none"></div>
-             <div class="absolute top-20 -left-20 w-64 h-64 bg-violet-500 rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
-             
-             ${renderProjectMedia(fotoProyek, proyek.title)}
+            <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-violet-600 rounded-full blur-[100px] opacity-40 pointer-events-none"></div>
+            <div class="absolute top-20 -left-20 w-64 h-64 bg-violet-500 rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
+            
+            ${renderProjectMedia(fotoProyek, proyek.title)}
           </a>
           
-          <!-- SISI KANAN: Teks Judul dan Deskripsi (Lebar 40% di layar besar) -->
+          <!-- SISI KANAN: Teks Judul dan Deskripsi -->
           <div class="w-full lg:w-[40%] text-left">
-             <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6 tracking-tight">${proyek.title}</h2>
-             <p class="text-gray-500 dark:text-gray-400 text-base md:text-lg leading-relaxed">${proyek.description}</p>
+            <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-3 md:mb-6 tracking-tight">${proyek.title}</h2>
+            <p class="text-gray-500 dark:text-gray-400 text-sm md:text-lg leading-relaxed">${proyek.description}</p>
           </div>
 
         </div>
