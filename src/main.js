@@ -191,7 +191,7 @@ async function tampilkanDaftarProyekSticky() {
 
     // SEMUA KARTU RATA mendapat pb-[50vh].
     // PERBAIKAN: pb-24 untuk mobile, pb-[50vh] untuk layar lebar
-    const paddingClass = "pb-24 lg:pb-[50vh]";
+    const paddingClass = "pb-12 lg:pb-[50vh]";
 
     const card = `
       <div class="sticky w-full bg-white dark:bg-[#0a0a0a] pt-12 ${paddingClass} transition-colors duration-300" 
