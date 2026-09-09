@@ -87,8 +87,8 @@
               <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg" 
                     alt="World Map" 
                     class="w-full h-full object-cover dark:invert transition-transform duration-1000
-                          origin-[230%_40%] scale-[1.5]                       /* <-- 📱 MOBILE: Peta digeser ke kanan (Indonesia) & di-zoom agar tidak terpotong */
-                          md:origin-[89%_51%] md:scale-[5] md:object-center  /* <-- 💻 WEB: Asli milikmu */
+                          object-[82%_55%] scale-[2.5] origin-center         /* <-- 📱 MOBILE: Pakai object-position supaya ujung gambar tidak masuk layar */
+                          md:object-center md:origin-[89%_51%] md:scale-[5]  /* <-- 💻 WEB: Asli milikmu */
                           "
                     onerror="this.style.display='none'">
             </div>
@@ -98,7 +98,7 @@
 
             <!-- TITIK LOKASI -->
             <div class="absolute z-20 flex items-center justify-center 
-                        -translate-x-[45px] translate-y-[35px]                   /* <-- 📱 MOBILE: Titik koordinat awal untuk menyesuaikan peta baru */
+                        translate-x-[0px] translate-y-[20px]                     /* <-- 📱 MOBILE: Sesuaikan angka ini sedikit lagi di DevTools */
                         md:-translate-x-[130px] md:translate-y-[70px]            /* <-- 💻 WEB: Asli milikmu */
                         ">
               <div class="relative flex h-3 w-3 sm:h-4 sm:w-4 group cursor-pointer">
@@ -108,7 +108,7 @@
                 <!-- Tooltip -->
                 <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
                     <div class="bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-bold px-3 py-1.5 rounded-lg shadow-xl border border-white/10 dark:border-black/10">
-                      <!-- Pacitan, East Java -->
+                      Pacitan, East Java
                     </div>
                 </div>
               </div>
